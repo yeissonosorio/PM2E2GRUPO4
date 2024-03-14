@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="PM2E2GRUPO4.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0" Spacing="25">
+                <toolkit:DrawingView
+                x:Name="drawingView"
+                Margin="10"
+                Background="White"
+                HeightRequest="200"
+                LineColor="Black"
+                WidthRequest="350" />
+
+            <Entry
+            x:Name="Latitud"
+            HorizontalOptions="FillAndExpand"
+            Placeholder="" />
+            <Entry
+            x:Name="Longitud"
+            HorizontalOptions="FillAndExpand"
+            Placeholder="" />
+            <Entry
+            x:Name="Descripcion"
+            HorizontalOptions="FillAndExpand"
+            Placeholder="Nombre" />
+            <StackLayout Orientation="Horizontal">
+                <Button x:Name="rep" Text="Reproducir" Clicked="play" Margin="0,0,3,0"/>
+                <Button x:Name="startRecordingButton" Text="Iniciar" Clicked="OnStartRecordingButtonClicked" Margin="0,0,3,0"/>
+                <Button x:Name="stopRecordingButton" Text="Detener" Clicked="OnStopRecordingButtonClicked" IsEnabled="False"/>
+            </StackLayout>
+            <Button x:Name="guar" Text="Guardar" Clicked="guardar"/>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
