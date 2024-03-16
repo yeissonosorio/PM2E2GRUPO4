@@ -20,6 +20,7 @@ public partial class up : ContentPage
 	{
         try
         {
+
             var image = await drawingView.GetImageStream(200, 200);
         byte[] i= ObtenerImagenDibujada(image);
 		var ac = new Models.update
