@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PM2E2GRUPO4.NewPage1"
+             xmlns:maps="http://schemas.microsoft.com/dotnet/2021/maui/maps"
+             Title="NewPage1">
+    <FlexLayout Direction="Column" AlignItems="Stretch" >
+        <maps:Map x:Name="mapa"
+      IsTrafficEnabled="True"
+      MapType="Street"
+      IsShowingUser="True"
+      IsZoomEnabled="True"
+      IsScrollEnabled="True"
+      FlexLayout.Grow="1"
+      ></maps:Map>
+    </FlexLayout>
+</ContentPage>

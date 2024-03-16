@@ -17,12 +17,17 @@
             <Entry
             x:Name="Latitud"
             HorizontalOptions="FillAndExpand"
-            Placeholder="" />
+            Placeholder="Latitud"
+            Keyboard="Numeric"/>
+
+
             <Entry
             x:Name="Longitud"
             HorizontalOptions="FillAndExpand"
-            Placeholder="" />
-            <Entry
+            Placeholder="Longitud"
+            Keyboard="Numeric"/>
+
+                <Entry
             x:Name="Descripcion"
             HorizontalOptions="FillAndExpand"
             Placeholder="Nombre" />
@@ -32,6 +37,7 @@
                 <Button x:Name="stopRecordingButton" Text="Detener" Clicked="OnStopRecordingButtonClicked" IsEnabled="False"/>
             </StackLayout>
             <Button x:Name="guar" Text="Guardar" Clicked="guardar"/>
+            <Button x:Name="list" Text="Ver lista" Clicked="lista"/>
         </VerticalStackLayout>
     </ScrollView>
 

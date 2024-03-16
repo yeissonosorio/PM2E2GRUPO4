@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="PM2E2GRUPO4.up"
+             Title="up">
+    
+    <VerticalStackLayout Padding="30,0" Spacing="25">
+        <toolkit:DrawingView
+        x:Name="drawingView"
+        Margin="10"
+        Background="White"
+        HeightRequest="200"
+        LineColor="Black"
+        WidthRequest="350" />
+
+        <Entry
+        x:Name="Latitud"
+        HorizontalOptions="FillAndExpand"
+        Placeholder="Latitud"
+        Keyboard="Numeric"/>
+
+
+        <Entry
+        x:Name="Longitud"
+        HorizontalOptions="FillAndExpand"
+        Placeholder="Longitud"
+        Keyboard="Numeric"/>
+
+        <Entry
+        x:Name="Descripcion"
+        HorizontalOptions="FillAndExpand"
+        Placeholder="Nombre" />
+        <Button x:Name="act" Text="Actualizar" Clicked="actu"/>
+        <Button x:Name="del" Text="Eliminar" Clicked="elimi"/>
+    </VerticalStackLayout>
+</ContentPage>

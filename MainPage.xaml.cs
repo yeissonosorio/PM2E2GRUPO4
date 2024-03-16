@@ -1,5 +1,9 @@
-﻿using Plugin.AudioRecorder;
+﻿using CommunityToolkit.Maui.Views;
+using Plugin.AudioRecorder;
 using System;
+using System.IO.Compression;
+using NAudio;
+using NAudio.Wave;
 
 namespace PM2E2GRUPO4
 {
@@ -9,7 +13,10 @@ namespace PM2E2GRUPO4
         AudioRecorderService recorder = new AudioRecorderService();
         AudioPlayer player;
         string filePath;
-        string au;
+        byte[] audi;
+        byte[] i;
+
+        bool va= false;
 
         public MainPage()
         {
@@ -36,9 +43,12 @@ namespace PM2E2GRUPO4
 
                     Latitud.Text = latitude.ToString();
                     Longitud.Text = longitude.ToString();
-                    Longitud.IsEnabled = false;
-                    Latitud.IsEnabled = false;
+                   
 
+                }
+                else
+                {
+                    await DisplayAlert("Alerta", "GPS no Acivado", "OK");
                 }
             }
             catch (FeatureNotSupportedException fnsEx)
@@ -84,7 +94,8 @@ namespace PM2E2GRUPO4
         {
             await recorder.StopRecording();
             filePath = recorder.GetAudioFilePath();
-            au = ConvertAudioToBase64(filePath);
+            audi= ConvertAudioToBase64(filePath);
+            Console.WriteLine(audi);
             startRecordingButton.IsEnabled = true;
             stopRecordingButton.IsEnabled = false;
         }
@@ -101,30 +112,112 @@ namespace PM2E2GRUPO4
             }
         }
 
-        private string ConvertAudioToBase64(string filePath)
+        private byte[] ConvertAudioToBase64(string filePath)
         {
-            byte[] audioBytes = File.ReadAllBytes(filePath);
-            string base64String = Convert.ToBase64String(audioBytes);
-            return base64String;
+            byte[] audio = System.IO.File.ReadAllBytes(filePath);
+            return audio;
         }
+
+        private byte[] ObtenerImagenDibujada(Stream imagen)
+        {
+            
+
+            byte[] imagenBytes;
+            using (MemoryStream ms = new MemoryStream())
+            {
+                imagen.CopyTo(ms);
+                imagenBytes = ms.ToArray();
+            }
+            return imagenBytes;
+        }
+
+        
+
 
         private async void guardar(object sender, EventArgs e)
         {
-            
-            var lugar = new Models.lugares
+            validaciones();
+            if (va)
             {
-                latitud = double.Parse(Latitud.Text),
-                longitud = double.Parse(Longitud.Text),
-                descripcion = Descripcion.Text,
-                firma = au,
-                audio = au
-            };
-            
-            Models.Msg msg = await Controllers.controladorsitio.CreateEmple(lugar);
+                try
+                {
+                    var image = await drawingView.GetImageStream(200, 200);
+                    i = ObtenerImagenDibujada(image);
+                    Console.WriteLine(i);
+                    var lugar = new Models.lugares
+                    {
+                        latitud = double.Parse(Latitud.Text),
+                        longitud = double.Parse(Longitud.Text),
+                        descripcion = Descripcion.Text,
+                        firma = i,
+                        audio = audi
+                    };
 
-            if (msg != null)
+                    Models.Msg msg = await Controllers.controladorsitio.CreateEmple(lugar);
+
+                    if (msg != null)
+                    {
+                        await DisplayAlert("Aviso", msg.message.ToString(), "OK");
+                    }
+                }catch(Exception ex)
+                {
+                    await DisplayAlert("Alerta", "Debe llenar todos los campos", "OK");
+                }
+            }
+        }
+        private async void lista(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new Lista());
+        }
+
+        public async void validaciones()
+        {
+            var current = Connectivity.NetworkAccess;
+
+            if (current == NetworkAccess.Internet)
             {
-                await DisplayAlert("Aviso", msg.message.ToString(), "OK");
+                string latitudText = Latitud.Text;
+                string longitudText = Longitud.Text;
+                string des = Descripcion.Text;
+                if (!string.IsNullOrWhiteSpace(latitudText) && !string.IsNullOrWhiteSpace(longitudText))
+                {
+                    if(filePath!=null&& !string.IsNullOrWhiteSpace(des))
+                    {
+                        if (latitudText.Length <= 18 && longitudText.Length <= 18)
+                        {
+                            va = true;
+                        }
+                        else
+                        {
+                            
+                            await DisplayAlert("Alerta", "La longitud y latitud deben tener 18 caracteres o menos", "OK");
+                        }
+                    }
+                    else
+                    {
+                        await DisplayAlert("Alerta", "Debe llenar todos los campos", "OK");
+                        va = false;
+                    }
+                }
+                else
+                {
+                    // Al menos uno de los campos no está habilitado
+                    await DisplayAlert("Alerta", "por favor llene los campos de ubicacion", "OK");
+                    va = false;
+                }
+
+
+                
+            }
+            else if (current == NetworkAccess.ConstrainedInternet || current == NetworkAccess.Local)
+            {
+                await DisplayAlert("Aviso", "Conectese a internet", "OK");
+                va =  false;
+            }
+            else
+            {
+                await DisplayAlert("Aviso", "Conectese a internet", "OK");   
+                va= false;
             }
         }
     }

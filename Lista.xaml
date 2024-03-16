@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="PM2E2GRUPO4.Lista"
+             xmlns:converters="clr-namespace:PM2E2GRUPO4.Converters"
+             Title="Lista">
+    <ContentPage.Resources>
+        <converters:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter"/>
+    </ContentPage.Resources>
+    <ScrollView>
+        <StackLayout>
+            <ListView x:Name="postListView" ItemsSource="{Binding Posts}" ItemTapped="PostListView_ItemTapped" Margin="10">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Horizontal" x:Name="stackLayout">
+                                <Label Text="{Binding descripcion}" TextColor="Black" FontSize="16" />
+                                <Image Source="{Binding firma, Converter={StaticResource ByteArrayToImageSourceConverter}}" WidthRequest="50" HeightRequest="50"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Actualizar/Eliminar" Clicked="Button1_Clicked" Margin="5"  WidthRequest="200" HorizontalOptions="CenterAndExpand"/>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <Button Text="Reproducir" Clicked="Button2_Clicked" Margin="5"/>
+                <Button Text="Ver mapa" Clicked="Button3_Clicked" Margin="5"/>
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
