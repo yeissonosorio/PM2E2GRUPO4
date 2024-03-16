@@ -24,6 +24,19 @@ public partial class NewPage1 : ContentPage
         // Agregar el pin al mapa
         map.Pins.Add(pin);
 
+
+        Circle circle = new Circle
+        {
+            Center = new Location(lat,lon),
+            Radius = new Distance(100),
+            StrokeColor = Color.FromArgb("#88FF0000"),
+            StrokeWidth = 8,
+            FillColor = Color.FromArgb("#88FFC0CB")
+        };
+
+        // Add the Circle to the map's MapElements collection
+        map.MapElements.Add(circle);
+
         // Establecer el contenido de la página como el mapa
         Content = map;
     }
